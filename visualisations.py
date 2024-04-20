@@ -1,71 +1,27 @@
-import pandas as pd
-import numpy as np
-from math import pi
-import matplotlib.pyplot as plt
+from ucl_data import *
 #%matplotlib inline
 
-def createRadar(team, data, Scenario):
-    print('the data', data.loc[:, Scenario].values[0])
-    data = data.loc[:, Scenario].values[0].tolist()
+#ucl data
+df = pd.read_csv('data/ucl.csv', encoding='latin-1')
+df = df.drop(['Rk'], axis=1)
+df = df.fillna(0)
+print(df.head(100))
 
-    print('Scenario ', type(Scenario), Scenario)
-    num_categories = len(Scenario)
+# Sample the highest goal scorers
+high_Goals = df[df['Gls'] == df['Gls'].max()]
+print(high_Goals)
 
-    # Calculate angle values for each category
-    angles = np.linspace(0, 2 * np.pi, num_categories, endpoint=False).tolist()
-    angles += angles[:1]
-    data += data[:1]
+teams_goals_comp_hist_per_season(df)
 
-    # Create the radar plot
-    plt.figure(figsize=(6, 6))
-    plt.polar(angles, data, marker='o')
-    plt.fill(angles, data, 'b', alpha=0.1)
-    plt.xticks(angles[:-1], Scenario)
-    plt.title(team)
-    plt.show()
+# Sample players with > than 10 shots
+shots = df[df["Sh"]>10][["Player","Sh"]]
+shots.sort_values(by=['Sh'], inplace=True, ascending=False)
+print(shots)
+ucl_player_goals_and_assist_comp_hist_per_season(shots)
 
-def createRadar2(data1, data2, team_home, team_against, Scenario):
-    # Number of categories
-    num_categories = len(Scenario)
-    data1 = data1.loc[:, Scenario].values[0].tolist()
-    data2 = data2.loc[:, Scenario].values[0].tolist()
+single_player_stats_chart(df)
 
-    # Calculate angle values for each category
-    angles = np.linspace(0, 2 * np.pi, num_categories, endpoint=False).tolist()
-    angles += angles[:1]
-    data1 += data1[:1]
-    data2 += data2[:1]
-
-    # Create the subplots for two radar plots side by side
-    fig, ax = plt.subplots(1, 1, figsize=(12, 6), subplot_kw={'polar': True})
-
-    # Plot the first radar plot
-    ax.plot(angles, data1, marker='o', label=team_home)
-    ax.fill(angles, data1, 'b', alpha=0.1)
-    ax.set_xticks(angles[:-1])
-    ax.set_xticklabels(Scenario)
-    ax.set_title(team_home)
-    ax.legend()
-
-    # Plot the second radar plot
-    ax.plot(angles, data2, marker='o', label=team_against)
-    ax.fill(angles, data2, 'r', alpha=0.1)
-    ax.set_xticks(angles[:-1])
-    ax.set_xticklabels(Scenario)
-    ax.set_title(team_against)
-    ax.legend()
-
-    # Adjust spacing between subplots
-    plt.tight_layout()
-    # Show the radar plots
-    plt.show()
-
-def team_aggregation():
-
-    katikati = 0
-
-    return katikati
-
+# Advanced data
 dataset = pd.read_csv('data/Advanced.csv')
 print(dataset.head(100))
 print(dataset.shape)
@@ -183,3 +139,39 @@ plt.ylabel('Actual Goals Scored')
 plt.title('xG vs. Actual Goals')
 plt.grid(True)
 plt.show()
+
+
+
+
+
+
+# Falsy Vizualizations
+# individual Player Stats using the Radar Chart
+# label = np.array(['Gls', 'Sh', 'SoT', 'Sh/90', 'SoT/90', 'G/Sh','G/SoT'])
+# stats = df.loc[456,label].values
+# angles = np.linspace(0, 2*np.pi, len(label), endpoint=False)
+# # stats = np.concatenate((stats,[stats[0]]))
+# # angles = np.concatenate((angles,[angles[0]]))
+# fig = plt.figure()
+# ax = fig.add_subplot(111, polar=True)
+# ax.plot(angles, stats, 'o--', linewidth= 2)
+# ax.fill(angles, stats, alpha=0.25)
+# ax.set_thetagrids(angles * 180/np.pi, label)
+# ax.set_title([df.loc[456,'Player']])
+# ax.grid(True)
+# plt.show()
+#
+#
+# label = np.array(['xG', 'npxG', 'npxG/Sh', 'G-xG', 'np:G-xG'])
+# stats = df.loc[456,label].values
+# angles = np.linspace(0, 2*np.pi, len(label), endpoint=False)
+# # stats = np.concatenate((stats,[stats[0]]))
+# # angles = np.concatenate((angles,[angles[0]]))
+# fig = plt.figure()
+# ax = fig.add_subplot(111, polar=True)
+# ax.plot(angles, stats, '.--', linewidth= 2)
+# ax.fill(angles, stats, alpha=0.25)
+# ax.set_thetagrids(angles * 180/np.pi, label)
+# ax.set_title([df.loc[456,'Player']])
+# ax.grid(True)
+# plt.show()
