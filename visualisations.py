@@ -66,7 +66,7 @@ def team_aggregation():
 
     return katikati
 
-dataset = pd.read_csv('Advanced.csv')
+dataset = pd.read_csv('data/Advanced.csv')
 print(dataset.head(100))
 print(dataset.shape)
 
