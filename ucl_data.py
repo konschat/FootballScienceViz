@@ -4,16 +4,15 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 df = pd.read_csv('data/ucl.csv', encoding='latin-1')
-# print(df)
+print(df.head(100))
 
 df = df.drop(['Rk'], axis=1)
-print(df)
 
 # df converted to series
 df.info()
 df = df.fillna(0)
+df.info()
 # Number of missing values in current datadrame
-#print(df.isnull().sum())
 
 # print(df)
 print("Squad -- Player's Club\nGls -- Goals\nsh -- Shots Total\nSot -- Shots On Target\nSot% -- Shots On Target Percentage\nSh/90 -- Shots total per 90 minutes\nSot/90 -- Shots On target per 90 minutes\nG/Sh -- Goals Per Shot\nG/Sot -- Goals Per Shot On Target\nDist -- Average distance,in yards, from goal of all shots taken\nFK - Shots from free kicks\nPK -- Penalty Kicks Made\nPKatt -- Penalty Kicks Attempted\nxG -- Expected Goals\nnpxG -- Non-Penalty Expected Goals\nnpxG/Sh -- Non-Penalty Expected Goals per shot\nG-xG -- Goals minus Expected Goals\nnp:G-xG -- Non-Penalty Goals minus Non-Penalty Expected Goals")
